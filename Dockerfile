@@ -1,7 +1,7 @@
 FROM golang:1-buster
 
-RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | bash
 
 RUN curl -o- -L https://slss.io/install | bash
 
-ENV PATH="/root/.serverless/bin:/go/bin:/usr/local/go/bin:${PATH}"
+ENV PATH="/root/.serverless/bin:${PATH}"
