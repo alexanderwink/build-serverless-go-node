@@ -1,8 +1,12 @@
-FROM golang:1-buster
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-ENV NVM_DIR=/root/.nvm
-RUN . "$NVM_DIR/nvm.sh" && nvm install --lts
-RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | bash
+FROM golang:1 as go
+
+FROM node:lts as build
+COPY --from=go /usr/local/go /usr/local/go
+
+ENV PATH=/usr/local/go/bin:$PATH
+ENV GOPATH=/go
+ENV GOROOT=/usr/local/go
+ENV GOPROXY=https://proxy.golang.org,direct
+ENV CGO_ENABLED=1
+
 RUN curl -o- -L https://slss.io/install | bash
-ENV PATH="/root/.serverless/bin:${PATH}"
